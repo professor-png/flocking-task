@@ -24,23 +24,7 @@ Vector2 FlockingRule::computeWeightedForce(const std::vector<Boid*>& neighborhoo
     else
     {
         //If the rule is not enabled, return vector zero.
-        /*if (neighborhood.size() > 0)
-        {
-            Vector2 leadTarget = Vector2::Rotate(boid->getVelocity(), leadAngle);
-            Vector2 dist = neighborhood[0]->getPosition(), tmp;
-            for (unsigned int i = 0; i < neighborhood.size(); i++)
-            {
-                tmp = neighborhood[i]->getPosition();
-
-                if (tmp.getMagnitude() < dist.getMagnitude())
-                    dist = tmp;
-            }
-
-            Vector2 target = Vector2::Rotate(dist, followAngle);
-            force = boid->getPosition() - target;
-        }
-        else*/
-            force = Vector2::zero();
+        force = Vector2::zero();
     }
 
     return force;
