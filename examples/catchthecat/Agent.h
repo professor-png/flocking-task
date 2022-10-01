@@ -7,7 +7,7 @@ class World;
 
 struct hex {
   Point2D point;
-  int weight;
+  float weight;
   bool operator<(const hex& rhs) const;
 };
 

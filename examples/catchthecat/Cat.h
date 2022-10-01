@@ -7,7 +7,7 @@
 class Cat: public Agent
 {
  private:
-  //std::priority_queue<hex> queue;
+  std::priority_queue<hex> queue;
 
   //(0,0 is in center of grid)
   Point2D topLeft;
@@ -19,6 +19,7 @@ class Cat: public Agent
     explicit Cat():Agent(){};
     Point2D Move(World *) override;
     void setCornerPoints(int worldSize);
+    float distance(Point2D rhs, Point2D lhs);
 };
 
 #endif  // CAT_H

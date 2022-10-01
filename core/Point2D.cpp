@@ -1,5 +1,11 @@
 #include "Point2D.h"
 
+Point2D::Point2D()
+{
+    x = 0;
+    y = 0;
+}
+
 bool Point2D::operator==(const Point2D& rhs) const {
     return y == rhs.y && x==rhs.x;
 }
