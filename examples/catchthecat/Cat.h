@@ -15,6 +15,8 @@ class Cat: public Agent
   Point2D bottomLeft;
   Point2D bottomRight;
 
+  Point2D target;
+
  public:
     explicit Cat():Agent(){};
     Point2D Move(World *) override;

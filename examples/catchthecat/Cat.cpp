@@ -23,9 +23,10 @@ Point2D Cat::Move(World* world) {
     //  queue.push_back({head.point, head.weight+1});
     //mark where this element comes from
   //}
-    setCornerPoints(world->getWorldSideSize());
+    if (topRight == Point2D(0, 0))
+        setCornerPoints(world->getWorldSideSize());
     //clear queue
-    //visited.clear();
+    visited.clear();
     setVisited(world->getWorldSideSize());
     from.clear();
     queue = std::priority_queue<hex>();
@@ -37,8 +38,6 @@ Point2D Cat::Move(World* world) {
     hex tmp = { world->getCat() , 0};
     hex origin;
 
-    Point2D target = topLeft;
-
     //check to see if end goal has been reached
     while (abs(origin.point.x) != world->getWorldSideSize() / 2 || abs(origin.point.y) != world->getWorldSideSize() / 2) //(origin.point != target)
     {
@@ -47,8 +46,17 @@ Point2D Cat::Move(World* world) {
         origin = queue.top();
         queue.pop();
         
-        from[queue.top().point.x][queue.top().point.y] = origin.point;
         visited[origin.point.x][origin.point.y] = true;
+
+        /*if (abs(origin.point.x) == world->getWorldSideSize() / 2 || abs(origin.point.y) == world->getWorldSideSize() / 2)
+        {
+            if (!world->getContent(origin.point))
+            {
+                target = origin.point;
+                std::cout << target.x << " " << target.y << std::endl;
+                break;
+            }
+        }*/
 
         // set tmp to NE point
         if (world->isValidPosition(World::NE(origin.point)) && !world->getContent(World::NE(origin.point)) && visited[World::NE(origin.point).x][World::NE(origin.point).y] == false)
@@ -97,6 +105,9 @@ Point2D Cat::Move(World* world) {
             queue.push(tmp);
             //std::cout << "trigger SW\n";
         }
+
+        from[queue.top().point.x][queue.top().point.y] = origin.point;
+        //std::cout << "Queue size: " << queue.size() << " " << "top: " << queue.top().point.x << " " << queue.top().point.x << std::endl;
     }
 
     tmp.point = target;
@@ -112,14 +123,14 @@ Point2D Cat::Move(World* world) {
     //            std::cout << "true\n";
     //    }
     //}
-
+    //std::cout << from[tmp.point.x][tmp.point.y].x << " " << from[tmp.point.x][tmp.point.y].y << std::endl;
     while (tmp.point != world->getCat())
     {
         oneBefore = tmp.point;
         tmp.point = from[tmp.point.x][tmp.point.y];
-        std::cout << "Loop\n";
+        //std::cout << "Loop\n";
     }
-    std::cout << oneBefore.x << " " << oneBefore.y << std::endl;
+    //std::cout << oneBefore.x << " " << oneBefore.y << std::endl;
     return oneBefore;
 }
 
@@ -155,6 +166,8 @@ void Cat::setCornerPoints(int worldSize)
     //SW
     bottomLeft.x = -halfSize;
     bottomLeft.y = halfSize;
+
+    target = topLeft;
 }
 
 float Cat::distance(Point2D rhs, Point2D lhs)
