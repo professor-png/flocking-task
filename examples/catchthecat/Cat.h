@@ -8,7 +8,7 @@ class Cat: public Agent
 {
  private:
   std::priority_queue<hex> queue;
-  std::vector<hex> pointsInQueue;
+  std::unordered_map<int, std::unordered_map<int, bool>> pointsInQueue;
 
   //(0,0 is in center of grid)
   Point2D topLeft;

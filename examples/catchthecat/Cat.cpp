@@ -34,10 +34,10 @@ Point2D Cat::Move(World* world) {
     
     //set first position in queue to cat current position
     visited[world->getCat().x][world->getCat().y] = true;
+    pointsInQueue[world->getCat().x][world->getCat().y] = true;
     queue.push({ world->getCat(), 0 });
 
     hex tmp = { world->getCat() , 0};
-    pointsInQueue.push_back(tmp);
     hex origin;
 
     //system("CLS");
@@ -48,10 +48,12 @@ Point2D Cat::Move(World* world) {
         //std::cout << queue.top().point.x << " " << queue.top().point.y << " Visited:  " << visited[queue.top().point.x][queue.top().point.y] << std::endl;
         //std::cout << queue.top().point.x << " " << queue.top().point.y << std::endl;
         origin = queue.top();
-        pointsInQueue.erase();
         queue.pop();
-        if (queue.size() > 200) {
-          std::cout << "over 200\n";
+
+
+        if (queue.size() > 200)
+        {
+            std::cout << "over 200\n";
         }
 
         visited[origin.point.x][origin.point.y] = true;
