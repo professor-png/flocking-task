@@ -38,8 +38,10 @@ Point2D Cat::Move(World* world) {
     hex tmp = { world->getCat() , 0};
     hex origin;
 
+    system("CLS");
+
     //check to see if end goal has been reached
-    while (abs(origin.point.x) != world->getWorldSideSize() / 2 || abs(origin.point.y) != world->getWorldSideSize() / 2) //(origin.point != target)
+    while (abs(queue.top().point.x) != world->getWorldSideSize() / 2 || abs(queue.top().point.y) != world->getWorldSideSize() / 2) //(origin.point != target)
     {
         //std::cout << queue.top().point.x << " " << queue.top().point.y << " Visited:  " << visited[queue.top().point.x][queue.top().point.y] << std::endl;
         //std::cout << queue.top().point.x << " " << queue.top().point.y << std::endl;
@@ -107,6 +109,15 @@ Point2D Cat::Move(World* world) {
         }
 
         from[queue.top().point.x][queue.top().point.y] = origin.point;
+        std::cout << from[queue.top().point.x][queue.top().point.y].x << " " << from[queue.top().point.x][queue.top().point.y].y << std::endl;
+
+        if (abs(queue.top().point.x) == world->getWorldSideSize() / 2 || abs(queue.top().point.y) == world->getWorldSideSize() / 2)
+        {
+            target = queue.top().point;
+            //std::cout << target.x << " " << target.y << std::endl;
+            //break;
+        }
+
         //std::cout << "Queue size: " << queue.size() << " " << "top: " << queue.top().point.x << " " << queue.top().point.x << std::endl;
     }
 
@@ -124,10 +135,11 @@ Point2D Cat::Move(World* world) {
     //    }
     //}
     //std::cout << from[tmp.point.x][tmp.point.y].x << " " << from[tmp.point.x][tmp.point.y].y << std::endl;
+    
     while (tmp.point != world->getCat())
     {
         oneBefore = tmp.point;
-        tmp.point = from[tmp.point.x][tmp.point.y];
+        tmp.point = from[tmp.point.x][tmp.point.y]; /*THIS MIGHT BE CAUSING IT TO GET IN INFINITE LOOP*/
         //std::cout << "Loop\n";
     }
     //std::cout << oneBefore.x << " " << oneBefore.y << std::endl;
