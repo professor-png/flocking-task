@@ -30,15 +30,17 @@ Point2D Cat::Move(World* world) {
     setVisited(world->getWorldSideSize());
     from.clear();
     queue = std::priority_queue<hex>();
-
+    pointsInQueue.clear();
+    
     //set first position in queue to cat current position
     visited[world->getCat().x][world->getCat().y] = true;
     queue.push({ world->getCat(), 0 });
 
     hex tmp = { world->getCat() , 0};
+    pointsInQueue.push_back(tmp);
     hex origin;
 
-    system("CLS");
+    //system("CLS");
 
     //check to see if end goal has been reached
     while (abs(queue.top().point.x) != world->getWorldSideSize() / 2 || abs(queue.top().point.y) != world->getWorldSideSize() / 2) //(origin.point != target)
@@ -46,19 +48,13 @@ Point2D Cat::Move(World* world) {
         //std::cout << queue.top().point.x << " " << queue.top().point.y << " Visited:  " << visited[queue.top().point.x][queue.top().point.y] << std::endl;
         //std::cout << queue.top().point.x << " " << queue.top().point.y << std::endl;
         origin = queue.top();
+        pointsInQueue.erase();
         queue.pop();
-        
-        visited[origin.point.x][origin.point.y] = true;
+        if (queue.size() > 200) {
+          std::cout << "over 200\n";
+        }
 
-        /*if (abs(origin.point.x) == world->getWorldSideSize() / 2 || abs(origin.point.y) == world->getWorldSideSize() / 2)
-        {
-            if (!world->getContent(origin.point))
-            {
-                target = origin.point;
-                std::cout << target.x << " " << target.y << std::endl;
-                break;
-            }
-        }*/
+        visited[origin.point.x][origin.point.y] = true;
 
         // set tmp to NE point
         if (world->isValidPosition(World::NE(origin.point)) && !world->getContent(World::NE(origin.point)) && visited[World::NE(origin.point).x][World::NE(origin.point).y] == false)
@@ -109,22 +105,24 @@ Point2D Cat::Move(World* world) {
         }
 
         from[queue.top().point.x][queue.top().point.y] = origin.point;
-        std::cout << from[queue.top().point.x][queue.top().point.y].x << " " << from[queue.top().point.x][queue.top().point.y].y << std::endl;
+        //std::cout << from[queue.top().point.x][queue.top().point.y].x << " " << from[queue.top().point.x][queue.top().point.y].y << std::endl;
 
-        if (abs(queue.top().point.x) == world->getWorldSideSize() / 2 || abs(queue.top().point.y) == world->getWorldSideSize() / 2)
-        {
-            target = queue.top().point;
-            //std::cout << target.x << " " << target.y << std::endl;
-            //break;
-        }
-
+        //if (abs(queue.top().point.x) == world->getWorldSideSize() / 2 || abs(queue.top().point.y) == world->getWorldSideSize() / 2)
+        //{
+        //  if (!world->getContent(World::SW(origin.point))) {
+        //    target = queue.top().point;
+        //    std::cout << target.x << " " << target.y << std::endl;
+        //    // break;
+        //  }
+        //}
+        std::cout << "Queue size: " << queue.size() << std::endl;
         //std::cout << "Queue size: " << queue.size() << " " << "top: " << queue.top().point.x << " " << queue.top().point.x << std::endl;
     }
 
     tmp.point = target;
     //std::cout << tmp.point.x << " " << tmp.point.y << " From: " << from[tmp.point.x][tmp.point.y].x << from[tmp.point.x][tmp.point.y].y << std::endl;
     Point2D oneBefore = tmp.point;
-
+    //std::cout << queue.size() << " " << queue.top().point.x << " " << queue.top().point.y << std::endl;
     //for (int i = world->getWorldSideSize() / 2; i > -world->getWorldSideSize() / 2; i--)
     //{
     //    for (int j = world->getWorldSideSize() / 2; j > -world->getWorldSideSize() / 2; j--)
