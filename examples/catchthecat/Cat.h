@@ -18,6 +18,7 @@ class Cat: public Agent
  public:
     explicit Cat():Agent(){};
     Point2D Move(World *) override;
+    void setVisited(int worldSize);
     void setCornerPoints(int worldSize);
     float distance(Point2D rhs, Point2D lhs);
 };
