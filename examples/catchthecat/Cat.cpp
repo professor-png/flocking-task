@@ -52,9 +52,9 @@ Point2D Cat::Move(World* world) {
         queue.pop();
 
 
-        if (queue.size() > 200)
+        if (queue.size() == 1)
         {
-            std::cout << "over 200\n";
+            std::cout << "over 50\n" << queue.top().point.x << " " << queue.top().point.y << std::endl;
         }
 
         visited[origin.point.x][origin.point.y] = true;
