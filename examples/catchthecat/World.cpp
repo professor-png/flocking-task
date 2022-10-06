@@ -29,7 +29,7 @@ void World::clearWorld() {
   worldState.clear();
   worldState.resize(sideSize*sideSize);
   for(auto && i : worldState) i= false;
-  for(int i=0; i<4 * sideSize*sideSize*0.05; i++)
+  for(int i=0; i<sideSize*sideSize*0.05; i++)
     worldState[Random::Range(0,(int)worldState.size()-1)]= true;
   catPosition = {0,0};
   worldState[(int)worldState.size()/2] = false; // clear cat

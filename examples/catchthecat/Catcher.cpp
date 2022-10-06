@@ -18,13 +18,6 @@ Point2D Catcher::Move(World* world)
     Point2D tmp = getWallPt(world);//wallPositions[0].point;
     //wallPositions.erase(wallPositions.begin());
     return tmp;
-    /*auto side = world->getWorldSideSize() / 2;
-    for (;;) {
-        Point2D p = { Random::Range(-side, side), Random::Range(-side, side) };
-        auto cat = world->getCat();
-        if (cat.x != p.x && cat.y != p.y && !world->getContent(p))
-            return p;
-    }*/
 }
 
 int Catcher::getCatDirection(World* world)
@@ -83,12 +76,12 @@ void Catcher::setCornerPoints(int worldSize)
 Point2D Catcher::getWallPt(World* world)
 {
     Point2D tmp1, tmp2;
-    float dist1 = 0, dist2 = 0, shortestDist1 = distance(world->getCat(), wallPositions[1].point), shortestDist2 = distance(world->getCat(), wallPositions[2].point);
+    float dist1 = 0, dist2 = 0, shortestDist1 = 100, shortestDist2 = 100;
 
     for (int i = 0; i < wallPositions.size(); i++)
     {
-        //if (wallPositions[i].priority == 1)
-        //{
+        if (wallPositions[i].priority == 1)
+        {
             if (!world->getContent(wallPositions[i].point))
             {
                 dist1 = distance(world->getCat(), wallPositions[i].point);
@@ -99,25 +92,29 @@ Point2D Catcher::getWallPt(World* world)
                     tmp1 = wallPositions[i].point;
                 }
             }
-        //}
-        //else
-        //{
-        //    if (!world->getContent(wallPositions[i].point))
-        //    {
-        //        dist2 = distance(world->getCat(), wallPositions[i].point);
+        }
+        else
+        {
+            if (!world->getContent(wallPositions[i].point))
+            {
+                dist2 = distance(world->getCat(), wallPositions[i].point);
 
-        //        if (dist2 < shortestDist2)
-        //        {
-        //            shortestDist2 = dist2;
-        //            tmp2 = wallPositions[i].point;
-        //        }
-        //    }
-        //}
+                if (dist2 < shortestDist2)
+                {
+                    shortestDist2 = dist2;
+                    tmp2 = wallPositions[i].point;
+                }
+            }
+        }
     }
 
-    /*if (shortestDist2 < 8)
+    //if all 1 priority spaces are full
+    if (tmp1 == Point2D(0, 0))
+        tmp1 = tmp2;
+
+    if (shortestDist2 < shortestDist1 && shortestDist2 < 3)
         return tmp2;
-    else*/
+    else
         return tmp1;
 }
 
@@ -173,8 +170,6 @@ void Catcher::generateWallLocations(int worldSize)
         else
             priority = 1;
     }
-
-    
 }
 
 float Catcher::distance(Point2D rhs, Point2D lhs)

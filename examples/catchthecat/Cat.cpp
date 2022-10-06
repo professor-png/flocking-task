@@ -101,8 +101,7 @@ Point2D Cat::Move(World* world) {
             if (!world->getContent(queue.top().point/*World::SW(origin.point)*/))
             {
                 target = queue.top().point;
-                //std::cout << target.x << " " << target.y << std::endl;
-                // break;
+                break;
             }
         }
     }
