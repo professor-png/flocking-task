@@ -3,26 +3,6 @@
 #include <stdexcept>
 
 Point2D Cat::Move(World* world) {
-  //visited.clear();
-  //from.clear();
-
-  //std::vector<hex> queue;
-  //queue.push_back({world->getCat(), 0});
-
-  //while (!queue.empty()) {
-    //std::sort(queue.begin(), queue.end());
-    //remove head
-    //auto head = queue[0];
-    //queue.erase(queue.begin());
-
-    //mark head as visited
-    //visited[head.point.x][head.point.y] = true;
-
-    //if not visited add to queue with weight increased by 1
-    //if (visited[queue[0].point.x][queue[0].point.y] == false)
-    //  queue.push_back({head.point, head.weight+1});
-    //mark where this element comes from
-  //}
     if (topRight == Point2D(0, 0))
         setCornerPoints(world->getWorldSideSize());
     //clear queue
@@ -45,12 +25,12 @@ Point2D Cat::Move(World* world) {
     //check to see if end goal has been reached
     while (abs(queue.top().point.x) != world->getWorldSideSize() / 2 || abs(queue.top().point.y) != world->getWorldSideSize() / 2) //(origin.point != target)
     {
-        //std::cout << queue.top().point.x << " " << queue.top().point.y << " Visited:  " << visited[queue.top().point.x][queue.top().point.y] << std::endl;
-        //std::cout << queue.top().point.x << " " << queue.top().point.y << std::endl;
         origin = queue.top();
         pointsInQueue[queue.top().point.x][queue.top().point.y] = false;
         queue.pop();
 
+        /*if (queue.size() == 0)
+            std::cout << "\n";*/
 
         if (queue.size() == 1)
         {
@@ -118,39 +98,26 @@ Point2D Cat::Move(World* world) {
 
         if (abs(queue.top().point.x) == world->getWorldSideSize() / 2 || abs(queue.top().point.y) == world->getWorldSideSize() / 2)
         {
-          if (!world->getContent(World::SW(origin.point))) {
-            target = queue.top().point;
-            //std::cout << target.x << " " << target.y << std::endl;
-            // break;
-          }
+            if (!world->getContent(queue.top().point/*World::SW(origin.point)*/))
+            {
+                target = queue.top().point;
+                //std::cout << target.x << " " << target.y << std::endl;
+                // break;
+            }
         }
-        std::cout << "Queue size: " << queue.size() << std::endl;
-        //std::cout << "Queue size: " << queue.size() << " " << "top: " << queue.top().point.x << " " << queue.top().point.x << std::endl;
     }
 
     tmp.point = target;
     //std::cout << tmp.point.x << " " << tmp.point.y << " From: " << from[tmp.point.x][tmp.point.y].x << from[tmp.point.x][tmp.point.y].y << std::endl;
     Point2D oneBefore = tmp.point;
-    //std::cout << queue.size() << " " << queue.top().point.x << " " << queue.top().point.y << std::endl;
-    //for (int i = world->getWorldSideSize() / 2; i > -world->getWorldSideSize() / 2; i--)
-    //{
-    //    for (int j = world->getWorldSideSize() / 2; j > -world->getWorldSideSize() / 2; j--)
-    //    {
-    //        //std::cout << i << " " << j << std::endl;
-    //        if (visited[i][j] == 1)
-    //            std::cout << "true\n";
-    //    }
-    //}
-    //std::cout << from[tmp.point.x][tmp.point.y].x << " " << from[tmp.point.x][tmp.point.y].y << std::endl;
     
     while (tmp.point != world->getCat())
     {
         oneBefore = tmp.point;
         tmp.point = from[tmp.point.x][tmp.point.y]; /*THIS MIGHT BE CAUSING IT TO GET IN INFINITE LOOP*/
         //std::cout << "Loop\n";
-        std::cout << from.size() << std::endl;
+        //std::cout << from.size() << std::endl;
     }
-    //std::cout << oneBefore.x << " " << oneBefore.y << std::endl;
     return oneBefore;
 }
 

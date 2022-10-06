@@ -9,36 +9,6 @@ WallPt::WallPt(Point2D pt, int value)
 
 Point2D Catcher::Move(World* world)
 {
-    /*if (world->getCat() == Point2D(0, 0))
-    {*/
-        //originalDirection = getCatDirection(world);
-        //setCornerPoints(world->getWorldSideSize());
-
-        //switch (originalDirection)
-        //{
-        //case 1: // cat moving NE
-        //    std::cout << "NE\n";
-        //    startingPos = Point2D(topRight.x, topRight.y + (world->getWorldSideSize() / 4));
-        //    break;
-        //case 2: // cat moving NE
-        //    std::cout << "NW\n";
-        //    startingPos = Point2D(topLeft.x, topLeft.y + (world->getWorldSideSize() / 4));
-        //    break;
-        //case 3: // cat moving W
-        //    std::cout << "W\n";
-        //    //startingPos = Point2D()
-        //    break;
-        //case 4: // cat moving E
-        //    std::cout << "E\n";
-        //    break;
-        //case 5: // cat moving SW
-        //    std::cout << "SW\n";
-        //    break;
-        //case 6: // cat moving SE
-        //    std::cout << "SE\n";
-        //    break;
-        //}
-    //}
     if (wallPositions.size() == 0)
     {
         setCornerPoints(world->getWorldSideSize());
@@ -93,50 +63,71 @@ void Catcher::setCornerPoints(int worldSize)
 {
     int halfSize = worldSize / 2;
 
-    //NE
+    // NE
     topRight.x = halfSize;
     topRight.y = -halfSize;
 
-    //SE
+    // SE
     bottomRight.x = halfSize;
     bottomRight.y = halfSize;
 
-    //NW
+    // NW
     topLeft.x = -halfSize;
     topLeft.y = -halfSize;
 
-    //SW
+    // SW
     bottomLeft.x = -halfSize;
     bottomLeft.y = halfSize;
 }
 
 Point2D Catcher::getWallPt(World* world)
 {
-    Point2D tmp;
-    float dist = 0, shortestDist = distance(world->getCat(), wallPositions[0].point);
+    Point2D tmp1, tmp2;
+    float dist1 = 0, dist2 = 0, shortestDist1 = distance(world->getCat(), wallPositions[1].point), shortestDist2 = distance(world->getCat(), wallPositions[2].point);
 
-    for (int i = 1; i < wallPositions.size(); i++)
+    for (int i = 0; i < wallPositions.size(); i++)
     {
-        dist = distance(world->getCat(), wallPositions[i].point);
+        //if (wallPositions[i].priority == 1)
+        //{
+            if (!world->getContent(wallPositions[i].point))
+            {
+                dist1 = distance(world->getCat(), wallPositions[i].point);
 
-        if (dist < shortestDist && !world->getContent(wallPositions[i].point))
-        {
-            shortestDist = dist;
-            tmp = wallPositions[i].point;
-        }
+                if (dist1 < shortestDist1)
+                {
+                    shortestDist1 = dist1;
+                    tmp1 = wallPositions[i].point;
+                }
+            }
+        //}
+        //else
+        //{
+        //    if (!world->getContent(wallPositions[i].point))
+        //    {
+        //        dist2 = distance(world->getCat(), wallPositions[i].point);
 
+        //        if (dist2 < shortestDist2)
+        //        {
+        //            shortestDist2 = dist2;
+        //            tmp2 = wallPositions[i].point;
+        //        }
+        //    }
+        //}
     }
 
-    return tmp;
+    /*if (shortestDist2 < 8)
+        return tmp2;
+    else*/
+        return tmp1;
 }
 
 void Catcher::generateWallLocations(int worldSize)
 {
     Point2D tmp = topLeft;
-    int priority = 1;
+    int priority = 2;
 
     //generate top wall positions
-    for (int i = 0; i < worldSize - 1; i++)
+    for (int i = 0; i < worldSize; i++)
     {
         wallPositions.push_back(WallPt(tmp, priority));
         tmp = World::E(tmp);
@@ -148,7 +139,7 @@ void Catcher::generateWallLocations(int worldSize)
     }
 
     tmp = topRight;
-    for (int i = 0; i < worldSize - 1; i++)
+    for (int i = 0; i < worldSize; i++)
     {
         wallPositions.push_back(WallPt(tmp, priority));
         tmp = Point2D(tmp.x, tmp.y + 1);
@@ -160,7 +151,7 @@ void Catcher::generateWallLocations(int worldSize)
     }
 
     tmp = bottomRight;
-    for (int i = 0; i < worldSize - 1; i++)
+    for (int i = 0; i < worldSize; i++)
     {
         wallPositions.push_back(WallPt(tmp, priority));
         tmp = World::W(tmp);
@@ -172,7 +163,7 @@ void Catcher::generateWallLocations(int worldSize)
     }
 
     tmp = bottomLeft;
-    for (int i = 0; i < worldSize - 1; i++)
+    for (int i = 0; i < worldSize; i++)
     {
         wallPositions.push_back(WallPt(tmp, priority));
         tmp = Point2D(tmp.x, tmp.y - 1);
@@ -182,6 +173,8 @@ void Catcher::generateWallLocations(int worldSize)
         else
             priority = 1;
     }
+
+    
 }
 
 float Catcher::distance(Point2D rhs, Point2D lhs)
