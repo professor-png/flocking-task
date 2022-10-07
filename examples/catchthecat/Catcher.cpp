@@ -15,41 +15,9 @@ Point2D Catcher::Move(World* world)
         generateWallLocations(world->getWorldSideSize());
     }
 
-    Point2D tmp = getWallPt(world);//wallPositions[0].point;
-    //wallPositions.erase(wallPositions.begin());
+    Point2D tmp = getWallPt(world);
+
     return tmp;
-}
-
-int Catcher::getCatDirection(World* world)
-{
-    int i = 0;
-
-    if (world->getCat() == World::NE(Point2D(0, 0)))
-    {
-        i = 1;
-    }
-    else if (world->getCat() == World::NW(Point2D(0, 0)))
-    {
-        i = 2;
-    }
-    else if (world->getCat() == World::W(Point2D(0, 0)))
-    {
-        i = 3;
-    }
-    else if (world->getCat() == World::E(Point2D(0, 0)))
-    {
-        i = 4;
-    }
-    else if (world->getCat() == World::SW(Point2D(0, 0)))
-    {
-        i = 5;
-    }
-    else if (world->getCat() == World::SE(Point2D(0, 0)))
-    {
-        i = 6;
-    }
-
-    return i;
 }
 
 void Catcher::setCornerPoints(int worldSize)
@@ -108,9 +76,37 @@ Point2D Catcher::getWallPt(World* world)
         }
     }
 
-    //if all 1 priority spaces are full
-    if (tmp1 == Point2D(0, 0))
-        tmp1 = tmp2;
+    //if all wall spaces are full
+    if (tmp1 == Point2D(0, 0) && tmp2 == Point2D(0, 0))
+    {
+        //tmp1 = world->getCat();
+        while (world->getContent(tmp1))
+        {
+            int rand = Random::Range(0, 5);
+            Point2D pos = world->getCat();
+            switch (rand)
+            {
+            case 0:
+                tmp1 = World::NE(pos);
+                break;
+            case 1:
+                tmp1 = World::NW(pos);
+                break;
+            case 2:
+                tmp1 = World::E(pos);
+                break;
+            case 3:
+                tmp1 = World::W(pos);
+                break;
+            case 4:
+                tmp1 = World::SW(pos);
+                break;
+            default:
+                tmp1 = World::SE(pos);
+                break;
+            }
+        }
+    }
 
     if (shortestDist2 < shortestDist1 && shortestDist2 < 3)
         return tmp2;
@@ -120,11 +116,11 @@ Point2D Catcher::getWallPt(World* world)
 
 void Catcher::generateWallLocations(int worldSize)
 {
-    Point2D tmp = topLeft;
+    Point2D tmp = World::E(topLeft);
     int priority = 2;
 
     //generate top wall positions
-    for (int i = 0; i < worldSize; i++)
+    for (int i = 0; i < worldSize - 2; i++)
     {
         wallPositions.push_back(WallPt(tmp, priority));
         tmp = World::E(tmp);
@@ -136,7 +132,7 @@ void Catcher::generateWallLocations(int worldSize)
     }
 
     tmp = topRight;
-    for (int i = 0; i < worldSize; i++)
+    for (int i = 0; i < worldSize - 1; i++)
     {
         wallPositions.push_back(WallPt(tmp, priority));
         tmp = Point2D(tmp.x, tmp.y + 1);
@@ -148,7 +144,7 @@ void Catcher::generateWallLocations(int worldSize)
     }
 
     tmp = bottomRight;
-    for (int i = 0; i < worldSize; i++)
+    for (int i = 0; i < worldSize - 1; i++)
     {
         wallPositions.push_back(WallPt(tmp, priority));
         tmp = World::W(tmp);
@@ -159,8 +155,8 @@ void Catcher::generateWallLocations(int worldSize)
             priority = 1;
     }
 
-    tmp = bottomLeft;
-    for (int i = 0; i < worldSize; i++)
+    tmp = World::NE(bottomLeft);
+    for (int i = 0; i < worldSize - 2; i++)
     {
         wallPositions.push_back(WallPt(tmp, priority));
         tmp = Point2D(tmp.x, tmp.y - 1);

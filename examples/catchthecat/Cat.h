@@ -16,7 +16,7 @@ class Cat: public Agent
   Point2D bottomLeft;
   Point2D bottomRight;
 
-  Point2D target;
+  Point2D target, oldTarget;
 
  public:
     explicit Cat():Agent(){};

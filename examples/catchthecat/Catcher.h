@@ -27,7 +27,6 @@ public:
     explicit Catcher() :Agent() {};
     Point2D Move(World*) override;
 
-    int getCatDirection(World* world);
     void setCornerPoints(int worldSize);
     Point2D getWallPt(World* world);
     void generateWallLocations(int worldSize);

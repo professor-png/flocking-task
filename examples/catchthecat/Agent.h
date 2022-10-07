@@ -7,7 +7,8 @@ class World;
 
 struct hex {
   Point2D point;
-  float weight;
+  float weight = 0;
+  int distTraveled = 0;
   bool operator<(const hex& rhs) const;
 };
 
@@ -17,7 +18,7 @@ public:
   virtual Point2D Move(World*)=0;
 
   std::unordered_map<int, std::unordered_map<int, bool>> visited;
-  std::unordered_map<int, std::unordered_map<int, Point2D>> from;
+  std::unordered_map<int, std::unordered_map<int, hex>> from;
 };
 
 #endif  // AGENT_H
