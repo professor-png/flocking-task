@@ -164,7 +164,26 @@ void Cat::setCornerPoints(int worldSize)
     bottomLeft.x = -halfSize;
     bottomLeft.y = halfSize;
 
-    target = topLeft;
+    int rand = Random::Range(0, 4);
+
+    switch (rand)
+    {
+    case 1:
+        target = topLeft;
+        break;
+    case 2:
+        target = topRight;
+        break;
+    case 3:
+        target = bottomLeft;
+        break;
+    case 4:
+        target = bottomRight;
+        break;
+    default:
+        target = topLeft;
+        break;
+    }
 }
 
 float Cat::distance(Point2D rhs, Point2D lhs)
