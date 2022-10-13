@@ -132,7 +132,6 @@ void World::OnGui(ImGuiContext *context) {
     if(ImGui::SliderInt("Side Size", &newSize, 3, 21) && sideSize != (newSize/2)*2 + 1) {
         sideSize = (newSize/2)*2 + 1;
         clearWorld();
-        cat->setCornerPoints(sideSize);
     }
     if(ImGui::SliderFloat("Turn Duration", &timeBetweenAITicks, 0.1, 30) && sideSize != (newSize/2)*2 + 1) {
       sideSize = (newSize/2)*2 + 1;
