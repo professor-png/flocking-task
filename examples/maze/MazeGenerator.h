@@ -2,8 +2,11 @@
 #define MOBAGEN_MAZEGENERATOR_H
 
 #include "MazeGeneratorBase.h"
+#include "Point2D.h"
 #include <random>
 #include <ctime>
+#include <vector>
+#include <unordered_map>
 
 // please do not use this one anymore. Move your code to the specific implementation.
 // I am going to rename this interface soon to be a naive implementation.
@@ -11,6 +14,11 @@ class MazeGenerator : public MazeGeneratorBase
 {
 private:
 	std::mt19937 random = std::mt19937(std::time(nullptr));
+
+	std::vector<Point2D> from;
+	std::unordered_map<int, std::unordered_map<int, bool>> visited;
+
+	Point2D startingPt;
 
 public:
 	MazeGenerator();
@@ -22,6 +30,7 @@ public:
 
 	void InitRandom(int seed);
 	int Random(int bounds);
+	void WorldChange(World* world);
 
 };
 
