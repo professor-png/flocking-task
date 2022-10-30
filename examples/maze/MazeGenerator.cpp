@@ -19,18 +19,27 @@ bool MazeGenerator::Step(World* world)
 	switch (direction)
 	{
 	case 1: // north
+		nextPt = Point2D(startingPt.x, startingPt.y + 1);
 		break;
 	case 2: // east
+		nextPt = Point2D(startingPt.x + 1, startingPt.y);
 		break;
 	case 3: // south
+		nextPt = Point2D(startingPt.x, startingPt.y - 1);
 		break;
 	case 4: // west
+		nextPt = Point2D(startingPt.x - 1, startingPt.y);
 		break;
 	}
 
-	while 
+	world->SetNorth(nextPt, false);
+	world->SetEast(nextPt, false);
+	world->SetSouth(nextPt, false);
+	world->SetWest(nextPt, false);
+	startingPt = nextPt;
+	//while ()
 
-	return false;
+	return true;
 }
 
 void MazeGenerator::Clear(World* world) {}
@@ -47,7 +56,8 @@ int MazeGenerator::Random(int bounds)
 
 void MazeGenerator::WorldChange(World* world)
 {
-	startingPt = Point2D(Random(world->GetSize()), Random(world->GetSize()));
+	startingPt = Point2D(Random(world->GetSize() / 2), Random(world->GetSize() / 2));
+	std::cout << startingPt.x << " " << startingPt.y << std::endl;
 	
 	from.clear();
 
