@@ -8,36 +8,50 @@ MazeGenerator::MazeGenerator()
 
 bool MazeGenerator::Step(World* world)
 {
-	int direction;
-	Point2D nextPt;
+	int direction, oppositeDir;
+	Point2D nextPt = startingPt;
 	//world->SetEast(Point2D(0, 0), false);
 	//std::cout << Random(4) << std::endl;
 	visited[startingPt.x][startingPt.y] = true;
 
 	direction = Random(4);
 
+	while ()
 	switch (direction)
 	{
 	case 1: // north
 		nextPt = Point2D(startingPt.x, startingPt.y + 1);
+		oppositeDir = 0;
+		world->SetSouth(nextPt, false);
 		break;
 	case 2: // east
 		nextPt = Point2D(startingPt.x + 1, startingPt.y);
+		oppositeDir = 1;
+		world->SetWest(nextPt, false);
 		break;
 	case 3: // south
 		nextPt = Point2D(startingPt.x, startingPt.y - 1);
+		oppositeDir = 2;
+		world->SetNorth(nextPt, false);
 		break;
 	case 4: // west
 		nextPt = Point2D(startingPt.x - 1, startingPt.y);
+		oppositeDir = 3;
+		world->SetEast(nextPt, false);
 		break;
 	}
 
-	world->SetNorth(nextPt, false);
+	if (visited[nextPt.x][nextPt.y] == true)
+	{
+		std::cout << "visited\n";
+	}
+
+	/*world->SetNorth(nextPt, false);
 	world->SetEast(nextPt, false);
 	world->SetSouth(nextPt, false);
-	world->SetWest(nextPt, false);
+	world->SetWest(nextPt, false);*/
+	visited[startingPt.x][startingPt.y] = true;
 	startingPt = nextPt;
-	//while ()
 
 	return true;
 }
@@ -57,8 +71,25 @@ int MazeGenerator::Random(int bounds)
 void MazeGenerator::WorldChange(World* world)
 {
 	startingPt = Point2D(Random(world->GetSize() / 2), Random(world->GetSize() / 2));
-	std::cout << startingPt.x << " " << startingPt.y << std::endl;
 	
+	int negative = Random(4);
+
+	switch (negative)
+	{
+	case 1: // (pos, pos)
+		break;
+	case 2: // (pos, neg)
+		startingPt.y *= -1;
+		break;
+	case 3: // (neg, pos)
+		startingPt.x *= -1;
+		break;
+	case 4: // (neg, neg)
+		startingPt.x *= -1;
+		startingPt.y *= -1;
+		break;
+	}
+
 	from.clear();
 
 	for (int i = world->GetSize(); i > -world->GetSize(); i--)
