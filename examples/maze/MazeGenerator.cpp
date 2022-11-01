@@ -8,49 +8,69 @@ MazeGenerator::MazeGenerator()
 
 bool MazeGenerator::Step(World* world)
 {
-	int direction, oppositeDir;
+	int direction = 1;
 	Point2D nextPt = startingPt;
 	//world->SetEast(Point2D(0, 0), false);
 	//std::cout << Random(4) << std::endl;
 	visited[startingPt.x][startingPt.y] = true;
+	world->SetNodeColor(startingPt, Color::Red.Dark());
 
-	direction = Random(4);
+	std::cout << visited.size() << std::endl;
 
-	while ()
-	switch (direction)
+	while (nextPt == startingPt)
 	{
-	case 1: // north
-		nextPt = Point2D(startingPt.x, startingPt.y + 1);
-		oppositeDir = 0;
+		direction = Random(4);
+
+		if (direction == 1) // north
+		{
+			nextPt = Point2D(startingPt.x, startingPt.y - 1);
+			//world->SetSouth(startingPt, false);
+		}
+		
+		if (direction == 2) // east
+		{
+			nextPt = Point2D(startingPt.x + 1, startingPt.y);
+			//world->SetWest(startingPt, false);
+		}	
+		
+		if (direction == 3) // south
+		{
+			nextPt = Point2D(startingPt.x, startingPt.y + 1);
+			//world->SetNorth(startingPt, false);
+		}	
+		
+		if (direction == 4) // west
+		{
+			nextPt = Point2D(startingPt.x - 1, startingPt.y);
+			//world->SetEast(startingPt, false);
+		}
+
+		if (nextPt == last)
+			nextPt = startingPt;
+
+		if (!world->isValidPosition(nextPt) || visited[nextPt.x][nextPt.y] == true)
+		{
+			Hunt(world);
+			nextPt = startingPt;
+			break;
+		}
+	}
+
+	
+	if (nextPt == Point2D(startingPt.x, startingPt.y - 1)) // north
 		world->SetSouth(nextPt, false);
-		break;
-	case 2: // east
-		nextPt = Point2D(startingPt.x + 1, startingPt.y);
-		oppositeDir = 1;
+
+	if (nextPt == Point2D(startingPt.x + 1, startingPt.y)) // east
 		world->SetWest(nextPt, false);
-		break;
-	case 3: // south
-		nextPt = Point2D(startingPt.x, startingPt.y - 1);
-		oppositeDir = 2;
+
+	if (nextPt == Point2D(startingPt.x, startingPt.y + 1)) // south
 		world->SetNorth(nextPt, false);
-		break;
-	case 4: // west
-		nextPt = Point2D(startingPt.x - 1, startingPt.y);
-		oppositeDir = 3;
+
+	if (nextPt == Point2D(startingPt.x - 1, startingPt.y)) // west
 		world->SetEast(nextPt, false);
-		break;
-	}
 
-	if (visited[nextPt.x][nextPt.y] == true)
-	{
-		std::cout << "visited\n";
-	}
-
-	/*world->SetNorth(nextPt, false);
-	world->SetEast(nextPt, false);
-	world->SetSouth(nextPt, false);
-	world->SetWest(nextPt, false);*/
-	visited[startingPt.x][startingPt.y] = true;
+	//visited[startingPt.x][startingPt.y] = true;
+	last = startingPt;
 	startingPt = nextPt;
 
 	return true;
@@ -90,13 +110,30 @@ void MazeGenerator::WorldChange(World* world)
 		break;
 	}
 
-	from.clear();
+	//from.clear();
 
-	for (int i = world->GetSize(); i > -world->GetSize(); i--)
+	for (int i = world->GetSize() / 2; i >= -world->GetSize() / 2; i--)
 	{
-		for (int j = world->GetSize(); j > -world->GetSize(); j--)
+		for (int j = world->GetSize() / 2; j >= -world->GetSize() / 2; j--)
 		{
 			visited[i][j] = false;
+		}
+	}
+}
+
+void MazeGenerator::Hunt(World* world)
+{
+	std::cout << "World size: " << world->GetSize() << std::endl;
+	for (int i = -world->GetSize() / 2; i <= world->GetSize() / 2; i++)
+	{
+		for (int j = -world->GetSize() / 2; j <= world->GetSize() / 2; j++)
+		{
+			if (visited[j][i] == false)
+			{
+				startingPt = Point2D(j, i);
+				//visited[startingPt.x][startingPt.y] = true;
+				return;
+			}
 		}
 	}
 }

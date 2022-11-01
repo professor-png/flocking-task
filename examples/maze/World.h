@@ -8,11 +8,14 @@
 #include "Point2D.h"
 #include <vector>
 
+#include "generators/RecursiveBacktracker.h"
+
 class World : GameObject {
 private:
     int sideSize;
 
     MazeGenerator generator;
+    //RecursiveBacktracker generator;
     bool isSimulating = false;
     float timeBetweenAITicks = 1;
     float timeForNextTick = 1;
@@ -39,6 +42,8 @@ public:
     bool GetEast(const Point2D& point);
     bool GetSouth(const Point2D& point);
     bool GetWest(const Point2D& point);
+
+    bool isValidPosition(const Point2D& p);
 
     void SetNode(const Point2D& point, const Node& node);
     void SetNorth(const Point2D& point, const bool& state);

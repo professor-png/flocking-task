@@ -28,6 +28,15 @@ bool World::GetWest(const Point2D& point) {
   return data[Point2DtoIndex(point)+1];
 }
 
+bool World::isValidPosition(const Point2D& p) {
+    int sideOver2 = sideSize / 2;
+    return
+        (p.x >= -sideOver2) &&
+        (p.x <= sideOver2) &&
+        (p.y <= sideOver2) &&
+        (p.y >= -sideOver2);
+}
+
 void World::SetNode(const Point2D& point, const Node& node) {
   data[Point2DtoIndex(point)] = node.GetNorth();
   data[Point2DtoIndex(point)+3] = node.GetEast();

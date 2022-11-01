@@ -6,15 +6,18 @@
 #include <map>
 #include <vector>
 
-class RecursiveBacktracker: public MazeGeneratorBase {
- private:
-  std::vector<Point2D> stack;
-  std::map<int, std::map<int, bool>> visited; // naive. not optimal
-  Point2D randomStartPoint(World* world);
-  std::vector<Point2D> getVisitables(World* w, const Point2D& p);
- public:
-  bool Step(World * world) override;
-  void Clear(World * world) override;
+class RecursiveBacktracker : public MazeGeneratorBase
+{
+private:
+	std::vector<Point2D> stack;
+	std::map<int, std::map<int, bool>> visited; // naive. not optimal
+	Point2D randomStartPoint(World* world);
+	std::vector<Point2D> getVisitables(World* w, const Point2D& p);
+public:
+	bool Step(World* world) override;
+	void Clear(World* world) override;
+	
+	void WorldChange(World* world) {}
 };
 
 #endif  // RECURSIVEBACKTRACKER_H

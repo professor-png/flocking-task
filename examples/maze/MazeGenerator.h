@@ -15,10 +15,11 @@ class MazeGenerator : public MazeGeneratorBase
 private:
 	std::mt19937 random = std::mt19937(std::time(nullptr));
 
-	std::vector<Point2D> from;
+	//std::unordered_map<int, std::unordered_map<int, Point2D>> from;
 	std::unordered_map<int, std::unordered_map<int, bool>> visited;
 
 	Point2D startingPt;
+	Point2D last;
 
 public:
 	MazeGenerator();
@@ -31,7 +32,7 @@ public:
 	void InitRandom(int seed);
 	int Random(int bounds);
 	void WorldChange(World* world);
-
+	void Hunt(World* world);
 };
 
 #endif
