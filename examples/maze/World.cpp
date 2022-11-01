@@ -28,7 +28,7 @@ bool World::GetWest(const Point2D& point) {
   return data[Point2DtoIndex(point)+1];
 }
 
-bool World::isValidPosition(const Point2D& p) {
+bool World::IsValidPosition(const Point2D& p) {
     int sideOver2 = sideSize / 2;
     return
         (p.x >= -sideOver2) &&
@@ -159,7 +159,7 @@ void World::Clear()
     colors.clear();
     colors.resize(sideSize * sideSize);
     for (int i = 0; i < sideSize * sideSize; i++)
-        colors[i] = (Color::Gray).Dark();
+        colors[i] = (Color::Black).Dark();
 
     generator.WorldChange(this);
 }

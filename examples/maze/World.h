@@ -43,7 +43,7 @@ public:
     bool GetSouth(const Point2D& point);
     bool GetWest(const Point2D& point);
 
-    bool isValidPosition(const Point2D& p);
+    bool IsValidPosition(const Point2D& p);
 
     void SetNode(const Point2D& point, const Node& node);
     void SetNorth(const Point2D& point, const bool& state);

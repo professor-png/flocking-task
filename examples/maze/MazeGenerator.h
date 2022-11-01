@@ -18,7 +18,7 @@ private:
 	//std::unordered_map<int, std::unordered_map<int, Point2D>> from;
 	std::unordered_map<int, std::unordered_map<int, bool>> visited;
 
-	Point2D startingPt;
+	Point2D startingPt, nextPt;
 	Point2D last;
 
 public:
@@ -32,7 +32,8 @@ public:
 	void InitRandom(int seed);
 	int Random(int bounds);
 	void WorldChange(World* world);
-	void Hunt(World* world);
+	bool Hunt(World* world);
+	Point2D FindNeighbors(Point2D pt, World* world);
 };
 
 #endif
