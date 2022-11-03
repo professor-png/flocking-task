@@ -3,7 +3,7 @@
 
 MazeGenerator::MazeGenerator()
 {
-	InitRandom(000);
+	InitRandom(SEED);
 }
 
 bool MazeGenerator::Step(World* world)
