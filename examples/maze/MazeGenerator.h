@@ -8,7 +8,7 @@
 #include <vector>
 #include <unordered_map>
 
-const int SEED = 483;
+const int SEED = 69;
 
 // please do not use this one anymore. Move your code to the specific implementation.
 // I am going to rename this interface soon to be a naive implementation.
