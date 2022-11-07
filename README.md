@@ -1,6 +1,9 @@
 # MoBaGEn
 
-[![Windows](/actions/workflows/windows.yml/badge.svg)](/actions/workflows/windows.yml) [![Web](/actions/workflows/web.yml/badge.svg)](/actions/workflows/web.yml) [![Linux](/actions/workflows/linux.yml/badge.svg)](/actions/workflows/linux.yml) [![OSX](/actions/workflows/osx.yml/badge.svg)](/actions/workflows/osx.yml) [![pages-build-deployment](/actions/workflows/pages/pages-build-deployment/badge.svg)](/actions/workflows/pages/pages-build-deployment)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1d95c33e061442e39d7e1a697b28cb10)](https://www.codacy.com/gh/InfiniBrains/mobagen/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=InfiniBrains/mobagen&amp;utm_campaign=Badge_Grade) ![GitHub language count](https://img.shields.io/github/languages/count/InfiniBrains/mobagen) ![GitHub search hit counter](https://img.shields.io/github/search/InfiniBrains/mobagen/todo) ![Lines of code](https://img.shields.io/tokei/lines/github.com/InfiniBrains/mobagen) ![GitHub all releases](https://img.shields.io/github/downloads/InfiniBrains/mobagen/total) ![GitHub contributors](https://img.shields.io/github/contributors/InfiniBrains/mobagen)
+
+[![Windows](https://github.com/InfiniBrains/mobagen/actions/workflows/windows.yml/badge.svg)](https://github.com/InfiniBrains/mobagen/actions/workflows/windows.yml) [![Web](https://github.com/InfiniBrains/mobagen/actions/workflows/web.yml/badge.svg)](https://github.com/InfiniBrains/mobagen/actions/workflows/web.yml) [![Linux](https://github.com/InfiniBrains/mobagen/actions/workflows/linux.yml/badge.svg)](https://github.com/InfiniBrains/mobagen/actions/workflows/linux.yml) [![OSX](https://github.com/InfiniBrains/mobagen/actions/workflows/osx.yml/badge.svg)](https://github.com/InfiniBrains/mobagen/actions/workflows/osx.yml) [![pages](https://github.com/InfiniBrains/mobagen/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/InfiniBrains/mobagen/actions/workflows/pages/pages-build-deployment) 
+
 
 # Motivation
 I started this game engine project because:
@@ -8,9 +11,8 @@ I started this game engine project because:
 - I love game engine architecture;
 - I don't want to recreate all game engine stuff, I want to glue them all. "Life es too short to build a game engine from scratch"  
 - I want to have full control of all the processes from code to the delivery;
-- I want a job as a Game Engine Developer.
 
-## Hire Me!
+## Follow me!
 Did you like this project? Follow me on [social medias](https://linktree.com/tolstenko)
 
 # Why C++
@@ -43,3 +45,13 @@ Please refer to [this doc.](docs/Architecture.md)
 # Examples
 If you want to try code some AI examples, you need to follow this guide in order undestand and do your activity. https://docs.google.com/presentation/d/1OBEY-tb_ubgoq6Mk9lEsCFaYLINni3oPwjH8iAXEQQM/edit?usp=sharing
 - [Flocking demo](https://infinibrains.com/data/flocking)
+
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->

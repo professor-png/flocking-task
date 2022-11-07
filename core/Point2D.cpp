@@ -1,11 +1,5 @@
 #include "Point2D.h"
 
-Point2D::Point2D()
-{
-    x = 0;
-    y = 0;
-}
-
 bool Point2D::operator==(const Point2D& rhs) const {
     return y == rhs.y && x==rhs.x;
 }
@@ -21,4 +15,7 @@ Point2D &Point2D::operator=(const Point2D &rhs) {
   x = rhs.x;
   y = rhs.y;
   return *this;
+}
+Point2D Point2D::operator-(const Point2D& rhs) const {
+  return {x - rhs.x, y - rhs.y};
 }
