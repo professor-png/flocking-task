@@ -14,11 +14,18 @@ std::vector<Color32> RandomScenarioGenerator::Generate(int sideSize, float displ
     {
         for (int c = 0; c < sideSize; c++)
         {
-            float rgb = abs(noise.octave3D(c / 50.0, l / 50.0, displacement, 20)) * 255;
-            //float rgb = abs(noise.octave2D(c / 50.0, displacement, 1) * 255);
+            // 1 - (1-nx²) * (1-ny²)
+            float nx = 2 * (float)c / (float)sideSize - 1;
+            float ny = 2 * (float)l / (float)sideSize - 1;
+            float dist = 1 - ((1 - (nx * nx)) * (1 - (ny * ny)));
+
+            float rgb = (abs(noise.octave3D(c / 50.0, l / 50.0, displacement, 5)) - abs(noise.octave3D(c / 150.0, l / 150.0, displacement, 20))) * 255;
+            
+            rgb = (rgb + ((1 - dist) * 255)) / 2;
+
             float r, g, b;
 
-            if (rgb < 70)
+            if (rgb < 100)
             {
                 r = 0;
                 g = 0;
