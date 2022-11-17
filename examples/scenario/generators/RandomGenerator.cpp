@@ -3,7 +3,7 @@
 #include "../PerlinNoise.hpp"
 #include <iostream>
 // do not use this one to your assignment. this is my sample generator
-std::vector<Color32> RandomScenarioGenerator::Generate(int sideSize, float displacement)
+std::vector<Color32> RandomScenarioGenerator::Generate(int sideSize, float waterLevel, float displacement)
 {
     std::vector<Color32> colors;
     //   create your own function for noise generation
@@ -17,11 +17,12 @@ std::vector<Color32> RandomScenarioGenerator::Generate(int sideSize, float displ
             // 1 - (1-nx²) * (1-ny²)
             float nx = 2 * (float)c / (float)sideSize - 1;
             float ny = 2 * (float)l / (float)sideSize - 1;
-            float dist = 1 - ((1 - (nx * nx)) * (1 - (ny * ny)));
+            float range = 1;
+            float dist = range - ((range - (nx * nx)) * (range - (ny * ny)));
 
             float rgb = (abs(noise.octave3D(c / 50.0, l / 50.0, displacement, 5)) - abs(noise.octave3D(c / 150.0, l / 150.0, displacement, 20))) * 255;
             
-            rgb = (rgb + ((1 - dist) * 255)) / 2;
+            rgb = (rgb + ((waterLevel - dist) * 255)) / 2;
 
             float r, g, b;
 
@@ -46,7 +47,7 @@ std::vector<Color32> RandomScenarioGenerator::Generate(int sideSize, float displ
             {
                 r = 0;
                 b = 0;
-                g = rgb;//abs(rgb - 200);
+                g = rgb;
 
                 if (g > 150)
                     g = 180 - (rgb - 100);
@@ -59,6 +60,21 @@ std::vector<Color32> RandomScenarioGenerator::Generate(int sideSize, float displ
                 b = rgb - 50;
             }
             
+            if (r > 255)
+                r = 255;
+            else if (r < 0)
+                r = 0;
+
+            if (g > 255)
+                g = 255;
+            else if (g < 0)
+                g = 0;
+
+            if (b > 255)
+                b = 255;
+            else if (b < 0)
+                b = 0;
+
             //colors.emplace_back(rgb, rgb, rgb);
             colors.emplace_back(r, g, b);
             //      double color = noise.noise(c/50.0,l/50.0);

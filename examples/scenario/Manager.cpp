@@ -63,63 +63,71 @@ void Manager::Start() {
     colors[i]=Color::Cyan;
   SetPixels(colors);
 }
+
 void Manager::OnGui(ImGuiContext* context) {
-  ImGui::SetCurrentContext(context);
-  float deltaTime = ImGui::GetIO().DeltaTime;
+    ImGui::SetCurrentContext(context);
+    float deltaTime = ImGui::GetIO().DeltaTime;
 
-  ImGui::SetCurrentContext(context);
-  ImGui::Begin("Settings", nullptr);
-  ImGui::Text("%.1fms %.0fFPS | AVG: %.2fms %.1fFPS",
-              ImGui::GetIO().DeltaTime * 1000,
-              1.0f / ImGui::GetIO().DeltaTime,
-              1000.0f / ImGui::GetIO().Framerate,
-              ImGui::GetIO().Framerate);
-  static auto newSize = sideSize;
+    ImGui::SetCurrentContext(context);
+    ImGui::Begin("Settings", nullptr);
+    ImGui::Text("%.1fms %.0fFPS | AVG: %.2fms %.1fFPS",
+        ImGui::GetIO().DeltaTime * 1000,
+        1.0f / ImGui::GetIO().DeltaTime,
+        1000.0f / ImGui::GetIO().Framerate,
+        ImGui::GetIO().Framerate);
+    static auto newSize = sideSize;
 
-  if(ImGui::SliderInt("Side Size", &newSize, 5, 2048)) {
-    //newSize = (newSize/4)*4 + 1;
-    if(newSize!=sideSize) {
-      sideSize = newSize;
-      Clear();
+    if (ImGui::SliderInt("Side Size", &newSize, 5, 2048))
+    {
+        //newSize = (newSize/4)*4 + 1;
+        if (newSize != sideSize)
+        {
+            sideSize = newSize;
+            Clear();
+        }
     }
-  }
 
-  ImGui::Text("Generator: %s", generators[generatorId]->GetName().c_str());
-  if (ImGui::BeginCombo("##combo", generators[generatorId]->GetName().c_str())) // The second parameter is the label previewed before opening the combo.
-  {
-    for (int n = 0; n < generators.size(); n++) {
-      bool is_selected =
-          (generators[generatorId]->GetName() ==
-           generators[n]
-               ->GetName());  // You can store your selection however you want, outside or inside your objects
-      if (ImGui::Selectable(generators[n]->GetName().c_str(), is_selected)) {
-        generatorId = n;
-        Clear();
-      }
-      if (is_selected)
-        ImGui::SetItemDefaultFocus();  // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+    ImGui::Text("Generator: %s", generators[generatorId]->GetName().c_str());
+    if (ImGui::BeginCombo("##combo", generators[generatorId]->GetName().c_str())) // The second parameter is the label previewed before opening the combo.
+    {
+        for (int n = 0; n < generators.size(); n++) {
+            bool is_selected =
+                (generators[generatorId]->GetName() ==
+                    generators[n]
+                    ->GetName());  // You can store your selection however you want, outside or inside your objects
+            if (ImGui::Selectable(generators[n]->GetName().c_str(), is_selected)) {
+                generatorId = n;
+                Clear();
+            }
+            if (is_selected)
+                ImGui::SetItemDefaultFocus();  // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+        }
+        ImGui::EndCombo();
     }
-    ImGui::EndCombo();
-  }
 
-  if(ImGui::Button("Generate")) {
-    step();
-  }
+    if (ImGui::Button("Generate")) {
+        step();
+    }
+    float level = waterLevel;
+    if (ImGui::SliderFloat("Water Level", &level, .1, 2))
+    {
+        waterLevel = level;
+    }
 
-  ImGui::Text("Simulation");
-  if(ImGui::Button("Step")) {
-    isSimulating = false;
-    step();
-  }
-  ImGui::SameLine();
-  if(ImGui::Button("Start")) {
-    isSimulating = true;
-  }
-  ImGui::SameLine();
-  if(ImGui::Button("Pause")) {
-    isSimulating = false;
-  }
-  ImGui::End();
+    ImGui::Text("Simulation");
+    if (ImGui::Button("Step")) {
+        isSimulating = false;
+        step();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Start")) {
+        isSimulating = true;
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Pause")) {
+        isSimulating = false;
+    }
+    ImGui::End();
 }
 void Manager::Update(float deltaTime) {
   if(isSimulating) {
@@ -138,7 +146,7 @@ int Manager::GetSize() const {
 }
 void Manager::step() {
   auto start = std::chrono::high_resolution_clock::now();
-  auto pixels = generators[generatorId]->Generate(sideSize, accumulatedTime);
+  auto pixels = generators[generatorId]->Generate(sideSize, waterLevel, accumulatedTime);
   auto step = std::chrono::high_resolution_clock::now();
   SetPixels(pixels);
   auto end = std::chrono::high_resolution_clock::now();
