@@ -25,19 +25,41 @@ std::vector<Color32> RandomScenarioGenerator::Generate(int sideSize, float displ
 
             float r, g, b;
 
-            if (rgb < 100)
+            if (rgb < 100) // ocean
             {
                 r = 0;
                 g = 0;
-                b = abs(rgb - 200);
+                b = rgb + 100;
+                if (b < 120)
+                    b = rgb + 120;
+                
+                if (b > 200)
+                    b = (rgb / 10) + 200;
+            }
+            else if (rgb < 110)
+            {
+                r = rgb + 70;
+                g = rgb + 70;
+                b = 0;
+            }
+            else if (rgb < 180) // forest
+            {
+                r = 0;
+                b = 0;
+                g = rgb;//abs(rgb - 200);
+
+                if (g > 150)
+                    g = 180 - (rgb - 100);
+                
             }
             else
             {
-                r = 0;
-                g = abs(rgb - 200);
-                b = 0;
+                r = rgb - 50;
+                g = rgb - 50;
+                b = rgb - 50;
             }
             
+            //colors.emplace_back(rgb, rgb, rgb);
             colors.emplace_back(r, g, b);
             //      double color = noise.noise(c/50.0,l/50.0);
             //      colors.emplace_back(color,color,color);
